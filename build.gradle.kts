@@ -1,18 +1,3 @@
-buildscript {
-    val kotlinVersion = "1.6.21"
-
-    repositories {
-        mavenLocal()
-        mavenCentral()
-        jcenter()
-        maven("https://oss.jfrog.org/oss-snapshot-local/")
-    }
-
-    dependencies {
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
-    }
-}
-
 // a small hack: the variable must be named like the property
 // jitpack will pass -Pversion=..., so `val version` is required here.
 val version: String by project
@@ -39,13 +24,6 @@ allprojects {
         targetCompatibility = "1.8"
         options.compilerArgs.add("-Xlint:all")
         options.isDeprecation = true
-    }
-
-    repositories {
-        mavenLocal()
-        mavenCentral()
-        jcenter()
-        maven("https://oss.jfrog.org/oss-snapshot-local/")
     }
 }
 

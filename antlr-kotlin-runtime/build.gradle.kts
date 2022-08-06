@@ -1,13 +1,7 @@
 plugins {
     id("org.jetbrains.kotlin.multiplatform")
+    `maven-publish`
 }
-
-repositories {
-    mavenCentral()
-    mavenLocal()
-}
-
-apply(plugin = "maven-publish")
 
 kotlin {
     jvm()
