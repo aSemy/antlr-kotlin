@@ -16,8 +16,10 @@
 
 package com.strumenta.antlrkotlin.gradleplugin.internal;
 
-import com.strumenta.antlrkotlin.gradleplugin.AntlrKotlinTask;
+import com.strumenta.antlrkotlin.gradleplugin.AntlrKotlinTaskKt;
 import org.gradle.api.file.SourceDirectorySet;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.util.LinkedList;
@@ -26,32 +28,43 @@ import java.util.Set;
 
 public class AntlrSpecFactory {
 
-    public AntlrSpec create(AntlrKotlinTask antlrTask, Set<File> grammarFiles,
-                            SourceDirectorySet sourceDirectorySet) {
-        List<String> arguments = new LinkedList<>(antlrTask.getArguments());
-        File outputDirectory = antlrTask.getOutputDirectory();
+    public AntlrSpec create(
+            @NotNull
+            AntlrKotlinTaskKt antlrTask,
+            @NotNull
+            Set<File> grammarFiles,
+            @Nullable
+            SourceDirectorySet sourceDirectorySet
+    ) {
+        List<String> arguments = new LinkedList<>(antlrTask.getArguments().get());
+        File outputDirectory = antlrTask.getOutputDirectory().get().getAsFile();
 
-        String packageName = antlrTask.getPackageName();
+        String packageName = antlrTask.getPackageName().getOrNull();
         if (packageName != null && !arguments.contains("-package")) {
             arguments.add("-package");
             arguments.add(packageName);
             outputDirectory = new File(outputDirectory, packageName.replace(".", "/"));
         }
 
-        if (antlrTask.isTrace() && !arguments.contains("-trace")) {
+        if (antlrTask.getTraceEnabled().getOrElse(false) && !arguments.contains("-trace")) {
             arguments.add("-trace");
         }
-        if (antlrTask.isTraceLexer() && !arguments.contains("-traceLexer")) {
+        if (antlrTask.getTraceLexerEnabled().getOrElse(false) && !arguments.contains("-traceLexer")) {
             arguments.add("-traceLexer");
         }
-        if (antlrTask.isTraceParser() && !arguments.contains("-traceParser")) {
+        if (antlrTask.getTraceParserEnabled().getOrElse(false) && !arguments.contains("-traceParser")) {
             arguments.add("-traceParser");
         }
-        if (antlrTask.isTraceTreeWalker() && !arguments.contains("-traceTreeWalker")) {
+        if (antlrTask.getTraceTreeWalkerEnabled().getOrElse(false) && !arguments.contains("-traceTreeWalker")) {
             arguments.add("-traceTreeWalker");
         }
 
-        return new AntlrSpec(arguments, grammarFiles, sourceDirectorySet.getSrcDirs(), outputDirectory,
-                antlrTask.getMaxHeapSize());
+        return new AntlrSpec(
+                arguments,
+                grammarFiles,
+                sourceDirectorySet.getSrcDirs(),
+                outputDirectory,
+                antlrTask.getMaxHeapSize().getOrNull()
+        );
     }
 }

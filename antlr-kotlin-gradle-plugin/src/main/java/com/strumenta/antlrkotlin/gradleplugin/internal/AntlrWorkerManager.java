@@ -30,7 +30,12 @@ public class AntlrWorkerManager {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AntlrWorkerManager.class);
 
-    public AntlrResult runWorker(File workingDir, WorkerProcessFactory workerFactory, FileCollection antlrClasspath, AntlrSpec spec) {
+    public AntlrResult runWorker(
+            File workingDir,
+            WorkerProcessFactory workerFactory,
+            FileCollection antlrClasspath,
+            AntlrSpec spec
+    ) {
         LOGGER.debug("Running worker");
         RequestHandler<AntlrSpec, AntlrResult> antlrWorker = createWorkerProcess(workingDir, workerFactory, antlrClasspath, spec);
         return antlrWorker.run(spec);

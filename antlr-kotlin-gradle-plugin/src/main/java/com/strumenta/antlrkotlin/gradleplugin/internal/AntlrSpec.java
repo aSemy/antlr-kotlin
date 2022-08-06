@@ -26,11 +26,11 @@ public class AntlrSpec implements Serializable {
 
     private static final long serialVersionUID = 1943554582158475699L;
 
-    private List<String> arguments;
-    private Set<File> inputDirectories;
-    private Set<File> grammarFiles;
-    private String maxHeapSize;
-    private File outputDirectory;
+    private final List<String> arguments;
+    private final Set<File> inputDirectories;
+    private final Set<File> grammarFiles;
+    private final String maxHeapSize;
+    private final File outputDirectory;
 
     public AntlrSpec(List<String> arguments, Set<File> grammarFiles, Set<File> inputDirectories, File outputDirectory, String maxHeapSize) {
         this.arguments = arguments;
